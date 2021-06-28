@@ -11,14 +11,15 @@ module Notebackend
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
-    Rails.application.config.middleware.insert_before 0, Rack::Cors do
+    config.api_only = true
+
+    # Rack cors configuration
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
+        # Defines the urls from which to allow ajax request
         origins '*'
-    
-        resource '*',
-          headers: :any,
-          methods: [:get, :post, :put, :patch, :delete, :options, :head]
-      end
-    end
+        # Defines which resources and http verbs are allowed
+        # Documentation for the options verb: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS
+        resource '*', :headers => :any, :methods => [:get, :post, :delete, :patch, :options]
   end
 end
